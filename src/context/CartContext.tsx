@@ -1,7 +1,7 @@
 'use client';
 
 import { Product } from '@/types/product';
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface CartItem extends Product {
   quantity: number;
@@ -16,8 +16,26 @@ interface CartContextData {
 
 const CartContext = createContext<CartContextData | undefined>(undefined);
 
+const STORAGE_KEY = 'cart-data';
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved) as CartItem[];
+        setCart(parsed);
+      } catch (e) {
+        console.error('Erro ao ler carrinho salvo:', e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+  }, [cart]);
 
   function addToCart(product: Product) {
     setCart((prev) => {
