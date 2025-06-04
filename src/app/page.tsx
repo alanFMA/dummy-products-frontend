@@ -6,16 +6,25 @@ import { ProductCard } from '@/components/ProductCard';
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [filtered, setFiltered] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetch('https://dummyjson.com/products')
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);
+        setFiltered(data.products);
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    const term = search.toLowerCase();
+    const filteredList = products.filter((p) => p.title.toLowerCase().includes(term));
+    setFiltered(filteredList);
+  }, [search, products]);
 
   return (
     <main aria-labelledby="main-heading" className="p-6">
@@ -23,13 +32,32 @@ export default function HomePage() {
         Catálogo de Produtos
       </h1>
 
+      <section role="search" className="mb-6">
+        <label htmlFor="search" className="sr-only">
+          Buscar produtos
+        </label>
+        <input
+          id="search"
+          type="text"
+          placeholder="Buscar por nome..."
+          aria-label="Campo de busca de produtos"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border text-black  sdrounded px-4 py-2 w-full sm:w-1/2"
+        />
+      </section>
+
       {loading ? (
         <p aria-live="polite" role="status">
           Carregando produtos...
         </p>
+      ) : filtered.length === 0 ? (
+        <p aria-live="assertive" className="text-red-600">
+          Nenhum produto encontrado para &apos;{search}&lsquo;
+        </p>
       ) : (
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {products.map((product) => (
+          {filtered.map((product) => (
             <li key={product.id}>
               <ProductCard product={product} />
             </li>
