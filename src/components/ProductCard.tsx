@@ -1,10 +1,13 @@
 import { Product } from '@/types/product';
+import { useCart } from '@/context/CartContext';
 
 interface Props {
   product: Product;
 }
 
 export function ProductCard({ product }: Props) {
+  const { addToCart } = useCart();
+
   return (
     <article
       role="group"
@@ -19,6 +22,13 @@ export function ProductCard({ product }: Props) {
       <h3 className="text-lg font-semibold">{product.title}</h3>
       <p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
       <p className="mt-2 font-bold">R$ {product.price}</p>
+      <button
+        onClick={() => addToCart(product)}
+        className="mt-3 w-full bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700 focus:outline focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        aria-label={`Adicionar ${product.title} ao carrinho`}
+      >
+        Adicionar ao carrinho
+      </button>
     </article>
   );
 }
