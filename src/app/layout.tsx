@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { CartButton } from '@/components/CartButton';
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <CartButton />
+          <Toaster richColors position="top-right" />
         </CartProvider>
       </body>
     </html>
