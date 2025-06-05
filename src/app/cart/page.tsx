@@ -1,11 +1,22 @@
 'use client';
-
 import { useCart } from '@/context/CartContext';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function CartPage() {
   const { cart, clearCart } = useCart();
+  const [loading, setLoading] = useState(false);
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleCheckout = () => {
+    setLoading(true);
+    setTimeout(() => {
+      clearCart();
+      setLoading(false);
+      toast.success('Compra finalizada com sucesso! 🛒');
+    }, 1200);
+  };
 
   return (
     <main className="max-w-4xl mx-auto p-4">
@@ -30,10 +41,13 @@ export default function CartPage() {
           <div className="flex justify-between items-center">
             <p className="text-lg font-semibold">Total: R$ {total.toFixed(2)}</p>
             <button
-              onClick={clearCart}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+              onClick={handleCheckout}
+              disabled={loading}
+              className={`px-4 py-2 rounded transition text-white ${
+                loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
+              }`}
             >
-              Finalizar Compra
+              {loading ? 'Finalizando...' : 'Finalizar Compra'}
             </button>
           </div>
         </>
