@@ -17,9 +17,7 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
-    rgb(var(--background-start-rgb));
+  @apply bg-background text-[#1A1A1A];
 }
 
 @layer utilities {

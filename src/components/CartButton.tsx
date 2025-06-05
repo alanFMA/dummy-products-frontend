@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
+import { ShoppingCart } from 'lucide-react';
 
 export function CartButton() {
   const { cart } = useCart();
@@ -10,15 +11,18 @@ export function CartButton() {
   return (
     <Link
       href="/cart"
-      aria-label={`Ir para o carrinho com ${totalItems} itens`}
-      className="fixed top-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-700 focus:outline focus:ring-2 focus:ring-blue-500"
+      className="relative bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition focus:outline focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+      aria-label={`Carrinho com ${totalItems} itens`}
     >
-      🛒 Carrinho
-      {totalItems > 0 && (
-        <span className="ml-2 bg-white text-blue-600 font-bold px-2 py-0.5 rounded-full text-sm">
-          {totalItems}
-        </span>
-      )}
+      <div className="flex items-center gap-2">
+        <ShoppingCart size={18} />
+        <span>Carrinho</span>
+        {totalItems > 0 && (
+          <span className="ml-1 bg-white text-primary text-xs font-bold px-2 py-0.5 rounded-full">
+            {totalItems}
+          </span>
+        )}
+      </div>
     </Link>
   );
 }
