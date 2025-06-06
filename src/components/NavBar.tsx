@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { CartButton } from './CartButton';
+import { UserActions } from './UserActions';
 
 export function Navbar() {
   return (
@@ -10,8 +11,10 @@ export function Navbar() {
         <Link href="/" className="text-xl font-bold text-primary">
           DummyProducts
         </Link>
-
-        <CartButton />
+        <div className="flex items-center gap-4">
+          <CartButton />
+          <UserActions />
+        </div>
       </nav>
     </header>
   );
