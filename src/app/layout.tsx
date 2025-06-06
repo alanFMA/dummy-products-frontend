@@ -25,7 +25,7 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <Navbar />
-            <main>{children}</main>
+            {children}
             <Footer />
             <Toaster duration={2000} richColors position="top-right" />
           </CartProvider>

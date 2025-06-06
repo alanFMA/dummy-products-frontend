@@ -33,9 +33,6 @@ export default function HomePage() {
       </h1>
 
       <section role="search" className="mb-6">
-        <label htmlFor="search" className="sr-only">
-          Buscar produtos
-        </label>
         <input
           id="search"
           type="text"
@@ -56,11 +53,13 @@ export default function HomePage() {
           Nenhum produto encontrado para: <strong>{search}</strong>
         </p>
       ) : (
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <li key={product.id}>
+              <ProductCard product={product} />
+            </li>
           ))}
-        </section>
+        </ul>
       )}
     </main>
   );
