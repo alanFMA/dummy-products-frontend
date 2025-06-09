@@ -2,10 +2,12 @@
 
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
+type LoginFn = (email: string, password: string) => void;
+
 interface AuthContextData {
   isAuthenticated: boolean;
   user: string | null;
-  login: (email: string, password: string) => void;
+  login: LoginFn;
   logout: () => void;
 }
 
@@ -23,7 +25,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  function login(email: string, password: string) {
+  function login(emailInput: string, passwordInput: string) {
+    const email = emailInput;
+    const password = passwordInput;
+
     if (email && password) {
       localStorage.setItem(STORAGE_KEY, 'fake-token');
       setUser(email);
@@ -47,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth deve ser usado dentro de AuthProvider');
+    throw new Error('useAuth deve ser usado dentro de AuthProvider!');
   }
   return context;
 }
